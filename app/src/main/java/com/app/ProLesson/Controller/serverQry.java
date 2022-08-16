@@ -25,8 +25,7 @@ public class serverQry {
         serverQry.requestQueue = requestQueue;
     }
     //USARE IL METODO
-    public static LessonModel requestLessons(String JSESSIONID, int ora, String giorno) {
-
+    public static LessonModel requestLessons(String JSESSIONID, String giorno) {
         LessonModel lessonModel = new LessonModel();
         //Qua uso la libreria volley per interrogare la servlet e fare il login.
         StringRequest stringRequest = new StringRequest(
@@ -45,7 +44,7 @@ public class serverQry {
                                     data.getJSONObject(i).getString("state"));
                             newOne.setAvaiable(data.getJSONObject(i).getInt("avaiable"));
                             lessonModel.addLesson(newOne);
-                            System.out.println(lessonModel.getLessons());
+                            //System.out.println(lessonModel.getLessons());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -60,7 +59,7 @@ public class serverQry {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("JSESSIONID", JSESSIONID);
-                params.put("ora", String.valueOf(ora));
+                params.put("ora", "15");
                 params.put("giorno", giorno);
                 return params;
             }

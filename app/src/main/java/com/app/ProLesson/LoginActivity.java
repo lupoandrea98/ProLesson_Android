@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
@@ -27,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText password;
     Button login_button;
     private final String servlet_login = "http://10.0.2.2:8080/TWEB_war_exploded/api/login";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +70,13 @@ public class LoginActivity extends AppCompatActivity {
                                     data.getJSONObject(1).getString("psw"), data.getJSONObject(1).getInt("isAdmin"));
                             user.setJSESSIONID(data.getString(2));
                             //*************************
-                            //System.out.println(user);   //controllo che prenda tutto correttamente.
+                            //System.out.println("Controllo utente post login " + user);   //controllo che prenda tutto correttamente.
                             //*************************
                             //Creo la nuova sessione utente tramite il SessionManager e ci salvo l'utente creato sopra
                             SessionManager sessionManager = new SessionManager(LoginActivity.this);
                             sessionManager.saveSession(user);
                             //Lancio l'activity della homepage.
+
                             launch_home();
                         }else
                             Toast.makeText(this, "Utente o password errati", Toast.LENGTH_SHORT).show();

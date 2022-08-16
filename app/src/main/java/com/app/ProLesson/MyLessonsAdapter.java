@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.Volley;
 import com.app.ProLesson.dataType.LessonModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.ViewHolder> {
@@ -34,7 +35,6 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_adapter, parent, false);
-        System.out.println("DIOPORCO_onCreateViewHolder");
         return new ViewHolder(v);
     }
 
@@ -74,7 +74,11 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
             docente = itemView.findViewById(R.id.nDoc);
             giorno = itemView.findViewById(R.id.nGiorno);
             orario = itemView.findViewById(R.id.nOrario);
-            System.out.println("DIOPORCO");
         }
+    }
+
+    //TODO: ho bisogno di un metodo che mi faccia un update dell'oggetto lessonObj quando viene richiamata la query dalla HomeActivity
+    public void setNewLessons(LessonModel lessonsObj) {
+        this.lessons = new ArrayList<>(lessonsObj.getLessons());
     }
 }

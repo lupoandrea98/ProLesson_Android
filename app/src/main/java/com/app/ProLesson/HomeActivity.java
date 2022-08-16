@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.Volley;
@@ -22,56 +24,47 @@ import com.app.ProLesson.Controller.SessionManager;
 import com.app.ProLesson.Controller.serverQry;
 import com.app.ProLesson.dataType.LessonModel;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    //private LessonModel lessonObj;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
     private TabLayout selectableDays;
+    private SessionManager sessionManager;
+    private LessonModel lessonObj;
+    private String selectedDay;
+    private TextView navUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
-
+        sessionManager = new SessionManager(HomeActivity.this);
+        lessonObj = new LessonModel();
+        selectedDay = "Lun";
         toolbar = findViewById(R.id.homeToolBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         selectableDays = findViewById(R.id.tabs);
         setSupportActionBar(toolbar);
-
-        navigationView.setNavigationItemSelectedListener(this);
+        navUser = navigationView.getHeaderView(0).findViewById(R.id.navUser);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close);
         drawerLayout.setDrawerListener(toggle);
 
-
-        selectableDays.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int tabID = tab.getId();
-                Toast.makeText(HomeActivity.this, tabID, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        navUser.setText((CharSequence) sessionManager.getUsername());
 
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container, new LessonsFragment());
-        fragmentTransaction.commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("giorno", "Lun");
+        LessonsFragment lessonsFragment = new LessonsFragment();
+        lessonsFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
 
     }
 

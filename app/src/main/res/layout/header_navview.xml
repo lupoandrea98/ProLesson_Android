@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_navview"
     android:layout_width="match_parent"
     android:layout_height="240dp"
     android:orientation="vertical"
@@ -14,10 +15,11 @@
         android:layout_margin="20dp"/>
 
     <TextView
+        android:id="@+id/navUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="Andrea Capolupo"
+        android:hint="NomeUtente"
         android:textColor="#ffff"
         android:textSize="12pt"/>
 
