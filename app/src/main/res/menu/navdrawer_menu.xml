@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/active_pren"
+            android:title="Prenotazioni attive"
+            android:icon="@drawable/ic_action_name"/>
+
+        <item
+            android:id="@+id/del_pren"
+            android:title="Prenotazioni disdette"
+            android:icon="@drawable/ic_del_pren"/>
+
+        <item
+            android:id="@+id/all_pren"
+            android:title="Tutte le prenotazioni"
+            android:icon="@drawable/ic_all_pren"/>
+    </group>
+
+    <item
+        android:id="@+id/logout"
+        android:title="logout"
+        android:icon="@drawable/ic_logout"/>
+
+
+
+
+</menu>

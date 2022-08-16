@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp"
+    android:elevation="4dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/lessonCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="10dp"
+        android:clipChildren="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:padding="3dp"
+            >
+
+            <TextView
+                android:id="@+id/nCorso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="NomeCorso"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/nDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nCorso"
+                android:hint="NomeDocente"
+                android:padding="3dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="prenota"
+                android:layout_toRightOf="@+id/nDoc"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/nGiorno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nDoc"
+                android:layout_marginRight="5dp"
+                android:hint="Giorno"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/nOrario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nDoc"
+                android:layout_toRightOf="@+id/nGiorno"
+                android:hint="Orario"
+                android:padding="3dp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
