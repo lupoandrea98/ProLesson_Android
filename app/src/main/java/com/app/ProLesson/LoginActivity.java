@@ -33,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        serverQry.setRequestQueue(Volley.newRequestQueue(getApplicationContext()));
+        //serverQry.setRequestQueue(Volley.newRequestQueue(getApplicationContext()));
+        serverQry.setContext(LoginActivity.this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                             SessionManager sessionManager = new SessionManager(LoginActivity.this);
                             sessionManager.saveSession(user);
                             //Lancio l'activity della homepage.
-
                             launch_home();
                         }else
                             Toast.makeText(this, "Utente o password errati", Toast.LENGTH_SHORT).show();
@@ -121,6 +121,5 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }*/
-
 
 }

@@ -23,7 +23,6 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
     public MyLessonsAdapter(LessonModel lessonObj) {
         //this.context = context;
         this.lessons = lessonObj.getLessons();
-        System.out.println(this.lessons);
     }
 
     //faccio l'inflate del layout definito in xml inserendolo nel viewholder

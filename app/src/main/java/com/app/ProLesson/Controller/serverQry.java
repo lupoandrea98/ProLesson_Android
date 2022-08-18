@@ -20,12 +20,18 @@ public class serverQry {
     private static final String link_avaiableLession = "http://10.0.2.2:8080/TWEB_war_exploded/api/lessongetter";
     private static final String link_logout = "http://10.0.2.2:8080/TWEB_war_exploded/api/logout";
     private static RequestQueue requestQueue;
-
-    public static void setRequestQueue(RequestQueue requestQueue) {
+    private static Context application_context = null;
+    /*public static void setRequestQueue(RequestQueue requestQueue) {
         serverQry.requestQueue = requestQueue;
     }
-    //USARE IL METODO
+     */
+
+    public static void setContext(Context context) {
+        application_context = context;
+    }
+
     public static LessonModel requestLessons(String JSESSIONID, String giorno) {
+        requestQueue = Volley.newRequestQueue(application_context);
         LessonModel lessonModel = new LessonModel();
         //Qua uso la libreria volley per interrogare la servlet e fare il login.
         StringRequest stringRequest = new StringRequest(
@@ -44,7 +50,7 @@ public class serverQry {
                                     data.getJSONObject(i).getString("state"));
                             newOne.setAvaiable(data.getJSONObject(i).getInt("avaiable"));
                             lessonModel.addLesson(newOne);
-                            //System.out.println(lessonModel.getLessons());
+                            //System.out.println("serverQry " + lessonModel.getLessons());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

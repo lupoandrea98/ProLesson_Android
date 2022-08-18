@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.ProLesson.Controller.SessionManager;
 import com.app.ProLesson.Controller.serverQry;
@@ -17,8 +20,13 @@ import com.app.ProLesson.dataType.LessonModel;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -26,11 +34,10 @@ import java.util.List;
 public class LessonsFragment extends Fragment {
 
     private LessonModel lessonObj;
-    private TabItem selectDay;
-    private TabLayout selectableDays;
-    private HomeActivity homeActivity;
     private String giorno;
     private String jsessionid;
+    private final String link_avaiableLession = "http://10.0.2.2:8080/TWEB_war_exploded/api/lessongetter";
+
 
     public LessonsFragment() {
     }
@@ -38,13 +45,12 @@ public class LessonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        homeActivity = (HomeActivity) getActivity();
-        selectableDays = homeActivity.findViewById(R.id.tabs);
-        giorno = "Lun";
-        SessionManager sessionManager = new SessionManager(getContext());
-        jsessionid = sessionManager.getSession();
-        lessonObj = serverQry.requestLessons(jsessionid, giorno);
+        lessonObj = new LessonModel();
+        if(getArguments() != null) {
+            giorno = getArguments().getString("giorno");
+            jsessionid = getArguments().getString("sessionid");
+        }else
+            System.out.println("Fragment's arguments are null");
 
     }
 
@@ -76,50 +82,51 @@ public class LessonsFragment extends Fragment {
 
 
          */
-
-        // Set the adapter and layoutmanager
-        MyLessonsAdapter mAdapter = new MyLessonsAdapter(this.lessonObj);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(mAdapter);
+        //lessonObj = serverQry.requestLessons(jsessionid, giorno);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                link_avaiableLession,
+                response -> {
+                    try {
+                        JSONArray data = new JSONArray(response);
+                        //Mi ritorna la lista di lezioni. La parsifico e me la salvo
+                        for(int i=0; i<data.length(); i++) {
+                            //corso docente giorno orario state
+                            LessonModel newOne = new LessonModel(data.getJSONObject(i).getString("corso"),
+                                    data.getJSONObject(i).getString("docente"),
+                                    data.getJSONObject(i).getString("giorno"),
+                                    data.getJSONObject(i).getInt("orario"),
+                                    data.getJSONObject(i).getString("state"));
+                            newOne.setAvaiable(data.getJSONObject(i).getInt("avaiable"));
+                            lessonObj.addLesson(newOne);
+                        }
+                        System.out.println("serverQry " + lessonObj.getLessons());
+                        MyLessonsAdapter mAdapter = new MyLessonsAdapter(this.lessonObj);
+                        recyclerView.setAdapter(mAdapter);
 
-        selectableDays.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    System.out.println(error.toString());
+                }) {
+
+            //Aggiungo i parametri della richiesta
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                //richiamo la query per quel determinato giorno
-                switch (tab.getPosition()){
-                    case 0:             //Lun
-                        giorno = "Lun";
-                        break;
-                    case 1:             //Mar
-                        giorno = "Mar";
-                        break;
-                    case 2:             //Mer
-                        giorno = "Mer";
-                        break;
-                    case 3:             //Gio
-                        giorno = "Gio";
-                        break;
-                    case 4:             //Ven
-                        giorno = "Ven";
-                        break;
-                }
-                lessonObj = serverQry.requestLessons(jsessionid, giorno);
-                mAdapter.setNewLessons(lessonObj);
-                mAdapter.notifyDataSetChanged();
-
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("JSESSIONID", jsessionid);
+                //params.put("ora", "15");
+                params.put("giorno", giorno);
+                return params;
             }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+        };
 
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        Volley.newRequestQueue(getContext()).add(stringRequest);
 
         return view;
     }

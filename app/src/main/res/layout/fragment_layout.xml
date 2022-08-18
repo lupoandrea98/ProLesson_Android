@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentLayout"
     android:background="@color/secondaryColor"
-    tools:context=".LessonsFragment">
+    tools:context=".HomeActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

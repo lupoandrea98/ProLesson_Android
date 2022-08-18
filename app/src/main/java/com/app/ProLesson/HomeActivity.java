@@ -2,29 +2,18 @@ package com.app.ProLesson;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.toolbox.Volley;
 import com.app.ProLesson.Controller.SessionManager;
 import com.app.ProLesson.Controller.serverQry;
-import com.app.ProLesson.dataType.LessonModel;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -33,38 +22,93 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
-    private TabLayout selectableDays;
     private SessionManager sessionManager;
-    private LessonModel lessonObj;
-    private String selectedDay;
     private TextView navUser;
+    private String day;
+    private TabLayout selectableDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
+
         sessionManager = new SessionManager(HomeActivity.this);
-        lessonObj = new LessonModel();
-        selectedDay = "Lun";
         toolbar = findViewById(R.id.homeToolBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         selectableDays = findViewById(R.id.tabs);
-        setSupportActionBar(toolbar);
         navUser = navigationView.getHeaderView(0).findViewById(R.id.navUser);
-
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close);
+        day = "Lun";
+        serverQry.setContext(HomeActivity.this);
+        setSupportActionBar(toolbar);
         drawerLayout.setDrawerListener(toggle);
+        navUser.setText(sessionManager.getUsername());
 
-        navUser.setText((CharSequence) sessionManager.getUsername());
-
-
-
-        Bundle bundle = new Bundle();
-        bundle.putString("giorno", "Lun");
         LessonsFragment lessonsFragment = new LessonsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("giorno", day);
+        bundle.putString("sessionid", sessionManager.getSession());
         lessonsFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
+
+        selectableDays.addOnTabSelectedListener(
+                new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        //richiamo la query per quel determinato giorno
+                        LessonsFragment lessonsFragment;
+                        switch (tab.getPosition()){
+                            case 0:             //Lun
+                                day = "Lun";
+                                lessonsFragment = new LessonsFragment();
+                                bundle.putString("giorno", day);
+                                lessonsFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
+                                break;
+                            case 1:             //Mar
+                                day = "Mar";
+                                lessonsFragment = new LessonsFragment();
+                                bundle.putString("giorno", day);
+                                lessonsFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
+                                break;
+                            case 2:             //Mer
+                                day = "Mer";
+                                lessonsFragment = new LessonsFragment();
+                                bundle.putString("giorno", day);
+                                lessonsFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
+                                break;
+                            case 3:             //Gio
+                                day = "Gio";
+                                lessonsFragment = new LessonsFragment();
+                                bundle.putString("giorno", day);
+                                lessonsFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
+                                break;
+                            case 4:             //Ven
+                                day = "Ven";
+                                lessonsFragment = new LessonsFragment();
+                                bundle.putString("giorno", day);
+                                lessonsFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                }
+        );
+
 
     }
 
@@ -80,15 +124,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()) {
             case R.id.active_pren:
+                System.out.println("puppa");
                 drawerLayout.closeDrawers();
                 break;
             case R.id.del_pren:
-                test();
+                drawerLayout.closeDrawers();
                 break;
             case R.id.all_pren:
+                drawerLayout.closeDrawers();
                 break;
             case R.id.logout:
                 logout();
+                drawerLayout.closeDrawers();
                 break;
 
         }
@@ -96,19 +143,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    //************************************************************
-    public void test() {
-        SessionManager sessionManager = new SessionManager(HomeActivity.this);
-        System.out.println("Sessione utente presa dalla homeActivity " + sessionManager.getSession());
-    }
-    //************************************************************
-
-    public void logout() {
+    private void logout() {
         //this method will remove session and open login screen
         SessionManager sessionManager = new SessionManager(HomeActivity.this);
-        sessionManager.removeSession();
         //TODO: magari qui chiamo una funzione per effettuare il logout anche nel backend? (forse obsoleto, tanto devo rifare il login)
         serverQry.logout(sessionManager.getSession());
+        sessionManager.removeSession();
         moveToLogin();
     }
 
