@@ -19,6 +19,7 @@ public class serverQry {
     private static final String link_getPrenotation = "http://10.0.2.2:8080/TWEB_war_exploded/api/booking";
     private static final String link_avaiableLession = "http://10.0.2.2:8080/TWEB_war_exploded/api/lessongetter";
     private static final String link_logout = "http://10.0.2.2:8080/TWEB_war_exploded/api/logout";
+    private static final String link_booking = "http://10.0.2.2:8080/TWEB_war_exploded/api/booking";
     private static RequestQueue requestQueue;
     private static Context application_context = null;
     /*public static void setRequestQueue(RequestQueue requestQueue) {
@@ -30,59 +31,8 @@ public class serverQry {
         application_context = context;
     }
 
-    public static LessonModel requestLessons(String JSESSIONID, String giorno) {
-        requestQueue = Volley.newRequestQueue(application_context);
-        LessonModel lessonModel = new LessonModel();
-        //Qua uso la libreria volley per interrogare la servlet e fare il login.
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                link_avaiableLession,
-                response -> {
-                    try {
-                        JSONArray data = new JSONArray(response);
-                        //Mi ritorna la lista di lezioni. La parsifico e me la salvo
-                        for(int i=0; i<data.length(); i++) {
-                            //corso docente giorno orario state
-                            LessonModel newOne = new LessonModel(data.getJSONObject(i).getString("corso"),
-                                    data.getJSONObject(i).getString("docente"),
-                                    data.getJSONObject(i).getString("giorno"),
-                                    data.getJSONObject(i).getInt("orario"),
-                                    data.getJSONObject(i).getString("state"));
-                            newOne.setAvaiable(data.getJSONObject(i).getInt("avaiable"));
-                            lessonModel.addLesson(newOne);
-                            //System.out.println("serverQry " + lessonModel.getLessons());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    System.out.println(error.toString());
-                }) {
-
-            //Aggiungo i parametri della richiesta
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("JSESSIONID", JSESSIONID);
-                params.put("ora", "15");
-                params.put("giorno", giorno);
-                return params;
-            }
-
-        };
-        //non posso aggiungere una string request all'app constest da questa classe.
-        //lo ritorno con questa funzione e lo aggiungo quando richiamo la funzione nell'app.
-        //Volley.newRequestQueue(this).add(stringRequest);
-        //System.out.println(l);
-        requestQueue.add(stringRequest);
-
-        return lessonModel;
-
-    }
-
     public static void logout(String JSESSIONID) {
-
+        requestQueue = Volley.newRequestQueue(application_context);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 link_logout,
@@ -100,6 +50,27 @@ public class serverQry {
 
         requestQueue.add(stringRequest);
 
+    }
+
+    public static void bookingLesson(LessonModel lesson, String JSESSIONID) {
+
+        //TODO: Devo trasformare lesson in un oggetto json altrimenti il backend non può tradurlo
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                link_booking,
+                response -> {},
+                error -> {}
+        ) {
+            //Aggiungo i parametri della richiesta
+            @Override
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("JSESSIONID", JSESSIONID);
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
 }

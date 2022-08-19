@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
+    android:padding="5dp"
     android:elevation="4dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/lessonCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="10dp"
         android:elevation="4dp"
         app:cardCornerRadius="10dp"
         android:clipChildren="true"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
             android:padding="3dp"
@@ -34,42 +34,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="NomeCorso"
-                android:textSize="15dp"
-                android:padding="3dp" />
+                android:padding="3dp"
+                android:textSize="11pt"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/nDoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/nCorso"
+                android:layout_marginTop="12dp"
                 android:hint="NomeDocente"
-                android:padding="3dp" />
+                android:padding="3dp"
+                android:textSize="8pt"
+                android:textStyle="italic" />
 
             <Button
+                android:id="@+id/prenotation_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="prenota"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="132dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="40dp"
                 android:layout_toRightOf="@+id/nDoc"
-                android:layout_marginLeft="150dp"
-                android:layout_marginTop="15dp"/>
+                android:text="prenota" />
 
             <TextView
                 android:id="@+id/nGiorno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/nDoc"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="5dp"
-                android:hint="Giorno"
-                android:padding="3dp" />
+                android:padding="3dp"
+                android:text="Orario di inizio: "
+                android:textSize="8pt" />
 
             <TextView
                 android:id="@+id/nOrario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nDoc"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="9dp"
                 android:layout_toRightOf="@+id/nGiorno"
                 android:hint="Orario"
-                android:padding="3dp" />
+                android:padding="3dp"
+                android:textSize="8pt" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

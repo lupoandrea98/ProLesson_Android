@@ -38,7 +38,6 @@ public class LessonsFragment extends Fragment {
     private String jsessionid;
     private final String link_avaiableLession = "http://10.0.2.2:8080/TWEB_war_exploded/api/lessongetter";
 
-
     public LessonsFragment() {
     }
 
@@ -119,7 +118,6 @@ public class LessonsFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("JSESSIONID", jsessionid);
-                //params.put("ora", "15");
                 params.put("giorno", giorno);
                 return params;
             }

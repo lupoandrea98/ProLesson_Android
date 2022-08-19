@@ -7,9 +7,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.Volley;
+import com.app.ProLesson.Controller.serverQry;
 import com.app.ProLesson.dataType.LessonModel;
 
 import java.util.ArrayList;
@@ -48,7 +50,6 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
         //Lessons lesson = Lessons.lessons.get(position);
         holder.corso.setText(lesson.getCorso());
         holder.docente.setText(lesson.getDocente());
-        holder.giorno.setText(lesson.getGiorno());
         holder.orario.setText(Integer.toString(lesson.getOra()));
 
     }
@@ -63,21 +64,24 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
         //Qua dentro ci va la roba presente nel view del fragment, tutti i riferimenti agli id dei vari componenti che vado ad usare
         private TextView corso;
         private TextView docente;
-        private TextView giorno;
         private TextView orario;
+        private Button prenotationButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             //Usando la view passata recupero i componenti con il solito findByView(R.id.....
             corso = itemView.findViewById(R.id.nCorso);
             docente = itemView.findViewById(R.id.nDoc);
-            giorno = itemView.findViewById(R.id.nGiorno);
             orario = itemView.findViewById(R.id.nOrario);
-        }
-    }
+            prenotationButton = itemView.findViewById(R.id.prenotation_button);
 
-    //TODO: ho bisogno di un metodo che mi faccia un update dell'oggetto lessonObj quando viene richiamata la query dalla HomeActivity
-    public void setNewLessons(LessonModel lessonsObj) {
-        this.lessons = new ArrayList<>(lessonsObj.getLessons());
+            prenotationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("DioCane " + corso.getText() + " " + orario.getText());
+
+                }
+            });
+        }
     }
 }
