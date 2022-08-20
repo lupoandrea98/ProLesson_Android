@@ -3,28 +3,26 @@ package com.app.ProLesson;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.Volley;
 import com.app.ProLesson.Controller.serverQry;
 import com.app.ProLesson.dataType.LessonModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.ViewHolder> {
 
     private List<LessonModel> lessons;
-    //private Context context;
+    private String jsessionid;
 
-    public MyLessonsAdapter(LessonModel lessonObj) {
-        //this.context = context;
+
+    public MyLessonsAdapter(LessonModel lessonObj, String jsession) {
         this.lessons = lessonObj.getLessons();
+        this.jsessionid = jsession;
     }
 
     //faccio l'inflate del layout definito in xml inserendolo nel viewholder
@@ -50,7 +48,10 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
         //Lessons lesson = Lessons.lessons.get(position);
         holder.corso.setText(lesson.getCorso());
         holder.docente.setText(lesson.getDocente());
-        holder.orario.setText(Integer.toString(lesson.getOra()));
+        holder.orario.setText(String.valueOf(lesson.getOrario()));
+        holder.giorno = lesson.getGiorno();
+        holder.stato = lesson.getStato();
+        holder.session = jsessionid;
 
     }
 
@@ -66,6 +67,9 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
         private TextView docente;
         private TextView orario;
         private Button prenotationButton;
+        private String giorno;
+        private String stato;
+        private String session;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,13 +79,13 @@ public class MyLessonsAdapter extends RecyclerView.Adapter<MyLessonsAdapter.View
             orario = itemView.findViewById(R.id.nOrario);
             prenotationButton = itemView.findViewById(R.id.prenotation_button);
 
-            prenotationButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("DioCane " + corso.getText() + " " + orario.getText());
 
-                }
+
+            prenotationButton.setOnClickListener(view -> {
+                LessonModel bookedLesson = new LessonModel(String.valueOf(corso.getText()), String.valueOf(docente.getText()), giorno, Integer.parseInt(String.valueOf(orario.getText())), stato);
+                serverQry.bookingLesson(bookedLesson, session);
             });
+
         }
     }
 }

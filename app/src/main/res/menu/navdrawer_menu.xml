@@ -3,19 +3,25 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/return_home"
+            android:title="Lezioni disponibili"
+            android:icon="@drawable/ic_return_home"/>
+        <item
             android:id="@+id/active_pren"
             android:title="Prenotazioni attive"
-            android:icon="@drawable/ic_action_name"/>
+            android:icon="@drawable/ic_active_pren"/>
 
         <item
             android:id="@+id/del_pren"
             android:title="Prenotazioni disdette"
-            android:icon="@drawable/ic_del_pren"/>
+            android:icon="@drawable/ic_del_pren"
+            android:iconTint="@color/primaryColor"/>
 
         <item
             android:id="@+id/all_pren"
             android:title="Tutte le prenotazioni"
             android:icon="@drawable/ic_all_pren"/>
+
     </group>
 
     <item
