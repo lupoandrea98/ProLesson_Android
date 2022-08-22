@@ -86,8 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    Toast.makeText(this, "Login Server Error", Toast.LENGTH_SHORT).show();
-                    System.out.println(error.toString());
+                    Toast.makeText(this, "Errore di connessione \n" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }) {
 
                     //Aggiungo i parametri della richiesta

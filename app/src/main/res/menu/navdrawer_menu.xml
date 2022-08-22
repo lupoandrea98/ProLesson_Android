@@ -9,13 +9,20 @@
         <item
             android:id="@+id/active_pren"
             android:title="Prenotazioni attive"
-            android:icon="@drawable/ic_active_pren"/>
+            android:icon="@drawable/ic_active_pren"
+            />
 
         <item
             android:id="@+id/del_pren"
             android:title="Prenotazioni disdette"
             android:icon="@drawable/ic_del_pren"
             android:iconTint="@color/primaryColor"/>
+        <item
+        android:id="@+id/done_pren"
+        android:title="Prenotazioni effettuate"
+        android:icon="@drawable/ic_done_pren"
+        android:iconTint="@color/primaryColor"/>
+
 
         <item
             android:id="@+id/all_pren"

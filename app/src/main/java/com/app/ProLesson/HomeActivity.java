@@ -29,6 +29,7 @@ public class HomeActivity extends AppCompatActivity{
     private String day;
     private TabLayout selectableDays;
     private boolean les_pren;   //true = lesson, false = prenotation
+    private String prenotation_state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class HomeActivity extends AppCompatActivity{
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close);
         day = "Lun";
         les_pren = true;
+        prenotation_state = "tutte";
         serverQry.setContext(HomeActivity.this);
         setSupportActionBar(toolbar);
         drawerLayout.setDrawerListener(toggle);
@@ -78,7 +80,7 @@ public class HomeActivity extends AppCompatActivity{
                 if(les_pren)
                     launchNewLessonsFragment();
                 else
-                    launchNewPrenotationFragment();
+                    launchNewPrenotationFragment(prenotation_state);
             }
 
                 @Override
@@ -99,9 +101,11 @@ public class HomeActivity extends AppCompatActivity{
                 //Uso uno switch per richiamare tutto quello da fare alla pressione dei tasti presenti nel menu
                 final int return_home = R.id.return_home;
                 final int active_pren = R.id.active_pren;
+                final int done_pren = R.id.done_pren;
                 final int del_pren = R.id.del_pren;
                 final int all_pren = R.id.all_pren;
                 final int logout = R.id.logout;
+                day = "Lun";
                 //se lancio return home reimposto les_pren a true in modo tale da visualizzare le lezioni
                 //se invece richiamo una qualsiasi delle prenotazioni, imposto les_pren a false
                 switch (item.getItemId()) {
@@ -112,17 +116,26 @@ public class HomeActivity extends AppCompatActivity{
                         break;
                     case active_pren:
                         les_pren = false;
-                        System.out.println("puppa");
+                        prenotation_state = "attive";
+                        launchNewPrenotationFragment(prenotation_state);
                         drawerLayout.closeDrawers();
                         break;
                     case del_pren:
                         les_pren = false;
+                        prenotation_state = "disdette";
+                        launchNewPrenotationFragment(prenotation_state);
+                        drawerLayout.closeDrawers();
+                        break;
+                    case done_pren:
+                        les_pren = false;
+                        prenotation_state = "effettuate";
+                        launchNewPrenotationFragment(prenotation_state);
                         drawerLayout.closeDrawers();
                         break;
                     case all_pren:
                         les_pren = false;
-                        day = "Lun";
-                        launchNewPrenotationFragment();
+                        prenotation_state = "tutte";
+                        launchNewPrenotationFragment(prenotation_state);
                         drawerLayout.closeDrawers();
                         break;
                     case logout:
@@ -167,11 +180,13 @@ public class HomeActivity extends AppCompatActivity{
         getSupportFragmentManager().beginTransaction().add(R.id.container, lessonsFragment).commit();
     }
 
-    private void launchNewPrenotationFragment() {
+    private void launchNewPrenotationFragment(String state) {
+        //TUTTE, ATTIVE, DISDETTE o EFFETTUATE
         PrenotationFragment prenFrag = new PrenotationFragment();
         Bundle bundle = new Bundle();
         bundle.putString("giorno", day);
         bundle.putString("sessionid", sessionManager.getSession());
+        bundle.putString("state", state);
         prenFrag.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container, prenFrag).commit();
     }

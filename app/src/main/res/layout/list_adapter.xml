@@ -34,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="NomeCorso"
+                android:textColor="@color/secondaryTextColor"
                 android:padding="3dp"
                 android:textSize="11pt"
                 android:textStyle="bold" />
@@ -45,6 +46,7 @@
                 android:layout_below="@+id/nCorso"
                 android:layout_marginTop="12dp"
                 android:hint="NomeDocente"
+                android:textColor="@color/secondaryTextColor"
                 android:padding="3dp"
                 android:textSize="8pt"
                 android:textStyle="italic" />
@@ -59,7 +61,11 @@
                 android:layout_marginRight="3dp"
                 android:layout_marginBottom="40dp"
                 android:layout_toRightOf="@+id/nDoc"
-                android:text="prenota" />
+                android:text="prenota"
+                android:textColor="@color/primaryDarkColor"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/thirdTextColor"
+                app:strokeWidth="2dp"/>
 
             <TextView
                 android:id="@+id/nGiorno"
@@ -70,6 +76,7 @@
                 android:layout_marginRight="5dp"
                 android:padding="3dp"
                 android:text="Orario di inizio: "
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="8pt" />
 
             <TextView
@@ -81,6 +88,7 @@
                 android:layout_marginTop="9dp"
                 android:layout_toRightOf="@+id/nGiorno"
                 android:hint="Orario"
+                android:textColor="@color/secondaryTextColor"
                 android:padding="3dp"
                 android:textSize="8pt" />
         </RelativeLayout>

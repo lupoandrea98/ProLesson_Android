@@ -77,14 +77,12 @@ public class MyPrenotationAdapter extends RecyclerView.Adapter<MyPrenotationAdap
                 LessonModel prenotation = new LessonModel(String.valueOf(corso.getText()), String.valueOf(docente.getText()), giorno,
                         Integer.parseInt(String.valueOf(orario.getText())), String.valueOf(stato.getText()));
                 serverQry.changeState(prenotation, session, "dismiss");
-                System.out.println("Disdici prenotazione");
             });
 
             done_button.setOnClickListener( view -> {
                 LessonModel prenotation = new LessonModel(String.valueOf(corso.getText()), String.valueOf(docente.getText()),
                         giorno, Integer.parseInt(String.valueOf(orario.getText())), String.valueOf(stato.getText()));
                 serverQry.changeState(prenotation, session, "done");
-                System.out.println("Lezione effettuata");
             });
         }
     }

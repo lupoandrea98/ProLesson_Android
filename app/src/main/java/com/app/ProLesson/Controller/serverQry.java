@@ -3,21 +3,12 @@ package com.app.ProLesson.Controller;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.ProLesson.dataType.LessonModel;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +31,9 @@ public class serverQry {
                 Request.Method.GET,
                 link_logout,
                 response -> {},
-                error -> {}
+                error -> {
+                    Toast.makeText(application_context, "Errore di connessione \n" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
         ) {
             //Aggiungo i parametri della richiesta
             @Override
@@ -66,8 +59,7 @@ public class serverQry {
                 link_booking,
                 response -> {
                     try {
-                        //TODO: trovare un modo per leggere sta cazzo di response
-                        if(response.equals("\"true\""))
+                        if(Boolean.parseBoolean(response.substring(1, response.length()-3)))
                             Toast.makeText(application_context, "Prenotazione effettuata con successo", Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(application_context, "Errore nell'effettuare la prenotazione", Toast.LENGTH_SHORT).show();
@@ -75,7 +67,9 @@ public class serverQry {
                         e.printStackTrace();
                     }
                 },
-                error -> {}
+                error -> {
+                    Toast.makeText(application_context, "Errore di connessione \n" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
         ) {
             //Aggiungo i parametri della richiesta
             @Override
@@ -106,8 +100,7 @@ public class serverQry {
                 link_booking,
                 response -> {
                     try {
-                        //TODO: trovare un modo per leggere sta cazzo di response
-                        if(response.equals("\"true\""))
+                        if(Boolean.parseBoolean(response.substring(0, response.length()-2)))
                             Toast.makeText(application_context, "Operazione effettuata con successo", Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(application_context, "Errore nell'effettuare l'operazione", Toast.LENGTH_SHORT).show();
@@ -115,7 +108,9 @@ public class serverQry {
                         e.printStackTrace();
                     }
                 },
-                error -> {}
+                error -> {
+                    Toast.makeText(application_context, "Errore di connessione \n" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
         ) {
             //Aggiungo i parametri della richiesta
             @Override

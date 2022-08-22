@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ public class PrenotationFragment extends Fragment {
     private String giorno;
     private String jsessionid;
     private final String link_prenotation = "http://10.0.2.2:8080/TWEB_war_exploded/api/booking";
+    private String state;
 
     public PrenotationFragment(){}
 
@@ -40,6 +42,7 @@ public class PrenotationFragment extends Fragment {
         if(getArguments() != null) {
             giorno = getArguments().getString("giorno");
             jsessionid = getArguments().getString("sessionid");
+            state = getArguments().getString("state");
         }else
             System.out.println("Fragment's arguments are null");
     }
@@ -68,7 +71,25 @@ public class PrenotationFragment extends Fragment {
                                     data.getJSONObject(i).getInt("orario"),
                                     data.getJSONObject(i).getString("state"));
                             newOne.setAvaiable(data.getJSONObject(i).getInt("avaiable"));
-                            prenotationObj.addLesson(newOne);
+                            //Posso effettuare qui una divisione.
+                            switch (state) {
+                                case "tutte":
+                                    prenotationObj.addLesson(newOne);
+                                    break;
+                                case "effettuate":
+                                    if(newOne.getStato().equals("effettuata"))
+                                        prenotationObj.addLesson(newOne);
+                                    break;
+                                case "attive":
+                                    if(newOne.getStato().equals("attiva"))
+                                        prenotationObj.addLesson(newOne);
+                                    break;
+                                case "disdette":
+                                    if(newOne.getStato().equals("disdetta"))
+                                        prenotationObj.addLesson(newOne);
+                                    break;
+                            }
+
                         }
                         MyPrenotationAdapter mAdapter = new MyPrenotationAdapter(prenotationObj, jsessionid);
                         recyclerView.setAdapter(mAdapter);
@@ -78,7 +99,7 @@ public class PrenotationFragment extends Fragment {
                     }
                 },
                 error -> {
-                    System.out.println(error.toString());
+                    Toast.makeText(getContext(), "Errore di connessione \n" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }) {
 
             //Aggiungo i parametri della richiesta

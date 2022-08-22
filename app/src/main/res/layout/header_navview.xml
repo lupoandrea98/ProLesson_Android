@@ -2,26 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/header_navview"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="265dp"
     android:orientation="vertical"
-    android:background="@color/primaryColor"
-    android:paddingTop="50dp"
+    android:background="@color/primaryDarkColor"
     >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"
-        android:layout_margin="20dp"/>
+        android:layout_width="160dp"
+        android:layout_height="126dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="65dp"
+        android:src="@drawable/icon_school_material" />
 
     <TextView
         android:id="@+id/navUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:padding="15dp"
         android:hint="NomeUtente"
         android:textColor="#ffff"
-        android:textSize="12pt"/>
+        android:textSize="15pt"
+        android:textStyle="bold"/>
 
 
 </LinearLayout>

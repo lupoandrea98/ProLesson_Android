@@ -10,12 +10,11 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/homeToolBar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primaryColor"
-        app:title="@string/app_name"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
-        />
+        app:title="@string/app_name" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -28,13 +27,16 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor">
+            android:background="@color/primaryColor"
+            app:tabTextColor="@color/thirdTextColor"
+            app:tabSelectedTextColor="@color/primaryTextColor"
+            app:tabIndicatorColor="@color/primaryTextColor"
+            >
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabLun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/secondaryColor"
                 android:text="L" />
 
             <com.google.android.material.tabs.TabItem

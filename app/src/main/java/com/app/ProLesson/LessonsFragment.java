@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
@@ -74,7 +76,7 @@ public class LessonsFragment extends Fragment {
                     }
                 },
                 error -> {
-                    System.out.println(error.toString());
+                    Toast.makeText(getContext(), "Errore di connessione \n" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }) {
 
             //Aggiungo i parametri della richiesta
